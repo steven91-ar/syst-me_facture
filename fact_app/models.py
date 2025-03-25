@@ -56,7 +56,7 @@ class Invoice(models.Model):
 
     save_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
-    invoice_date = models.DateTimeField(auto_now_add=True)
+    invoice_date_time = models.DateTimeField(auto_now_add=True)
 
     total = models.DecimalField(decimal_places=2, max_digits=10000)
 
@@ -72,8 +72,6 @@ class Invoice(models.Model):
         verbose_name = "Invoice"
         verbose_name_plural = "Invoices"
 
-    def __str__(self):
-        return f"{self.customer.name}_{self.invoice_date}"
 
 
     class Meta:
@@ -81,7 +79,7 @@ class Invoice(models.Model):
         verbose_name_plural = "Invoices"
 
     def __str__(self):
-        return f"{self.customer.name}_{self.invoice_date}"
+        return f"{self.customer.name}_{self.invoice_date_time}"
 
 
     @property

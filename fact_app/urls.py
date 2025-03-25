@@ -1,11 +1,7 @@
-from django.conf import settings
-from django.conf.urls.static import static
 from django.urls import path
 from .import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.HomeView.as_view(), name='home'),
+    path('add-customer', views.AddCustomerView.as_view(), name='add-customer'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
