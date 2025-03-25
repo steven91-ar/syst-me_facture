@@ -4,7 +4,7 @@ from django.urls import path
 from .import views
 
 urlpatterns = [
-    path('admin/', views.home),
+    path('', views.home, name='home'),
 ]
 
 if settings.DEBUG:
