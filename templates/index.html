@@ -48,13 +48,69 @@
                <img src="{% static 'images/icon-no.svg' %}" alt="False">
                {% endif %}
             </td>
+            <td>{{facture.get_invoice_type_display }}</td>
+            <td>
+               <a href="{% url 'view-invoice' pk=facture.pk %}" title="Detail" class="badge text-white bg-success">{% trans 'View' %}</a>
 
+               <button id="btn-invoice-sup" type="button" data-toggle="modal" data-target="#supprimer"
+                  class="badge text-white bg-danger" title="Supprimer" data-id="{{ facture.pk }}"
+                  data-customer="{{facture.customer.name}}"> Delete
+               </button>
 
-
+               <button id="btn-invoice-mod" type="button" data-toggle="modal" title="Modifier" data-target="#modifier"
+                  data-id="{{facture.pk}}" data-customer="{{facture.customer.name}}"
+                  class="badge text-dark bg-warning"> Modify
+               </button>
+            </td>
          </tr>
 
+        {% endfor %}
+
+         {% if invoices.has_other_pages %}
+
+         <div class="btn-group" role="group" aria-label="Item pagination">
+
+            {% if invoices.has_previous %}
+
+            <a href="?page={{ invoices.previous_page_number }}" class="btn btn-outline-primary">&laquo;</a>
+
+            {% endif %}
+
+            {% for page_number in invoices.paginator.page_range %}
+
+               {% if invoices.number == page_number %}
+
+                  <button class="btn btn-outline-primary active">
+                     <span> {{page_number}} <span class="sr-only">(current)</span></span>
+
+                  </button>
+
+                  {% else %}
+                     <a href="?page={{page_number}}" class="btn btn-outline-primary">
+                        {{ page_number }}
+                     </a>
 
 
+               {% endif %}
+
+            {% endfor %}
+
+            {% if invoices.has_next %}
+
+               <a href="?page={{ invoices.next_page_number }}" class="btn btn-outline-primary">&laquo;</a>
+
+            {% endif %}
+
+
+
+            </div>
+
+            {% endif %}
+
+            {% else %}
+
+            <p class="text-center text-white">No invoice found.</p>
+            {% endif %}
 
 
       </tbody>

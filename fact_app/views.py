@@ -1,3 +1,5 @@
+from email.policy import default
+
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import render
@@ -5,6 +7,7 @@ from django.views import View
 from .models import *
 from django.utils.translation import gettext as _
 
+from .utils import pagination, get_invoice
 
 
 class HomeView(View):
@@ -19,6 +22,18 @@ class HomeView(View):
     }
 
     def get(self, request, *args, **kwags):
+
+        items = pagination(request, self.invoices)
+
+        self.context['invoices'] = items
+
+        return render(request, self.templates_name, self.context)
+
+    def post(self, request, *args, **kwagrs):
+
+        items = pagination(request, self.invoices)
+
+        self.context['invoices'] = items
 
         return render(request, self.templates_name, self.context)
 
