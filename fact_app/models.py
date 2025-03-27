@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Customer(models.Model):
@@ -46,11 +47,11 @@ class Invoice(models.Model):
     author: jamienay@outlook.fr
     """
 
-    INVOICE_TYPES = [
-        ('R', 'RECU'),
-        ('P', 'Proforma FACTURE'),
-        ('F', 'Facture'),
-    ]
+    INVOICE_TYPE = (
+        ('R', _('RECEIPT')),
+        ('P', _('PROFORMA INVOICE')),
+        ('I', _('INVOICE'))
+    )
 
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
@@ -64,13 +65,9 @@ class Invoice(models.Model):
 
     paid = models.BooleanField(default=False)
 
-    invoice_type = models.CharField(max_length=1, choices=INVOICE_TYPES)
+    invoice_type = models.CharField(max_length=1, choices=INVOICE_TYPE)
 
     comments = models.TextField(null=True, max_length=1000, blank=True)
-
-    class Meta:
-        verbose_name = "Invoice"
-        verbose_name_plural = "Invoices"
 
 
 
